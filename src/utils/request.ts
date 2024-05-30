@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { message } from 'antd'
 import { showLoading, hideLoading } from './loading'
+import storage from './storage'
 
 //创建axios实例
 const instance = axios.create({
@@ -15,7 +16,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     showLoading()
-    const token = localStorage.getItem('token')
+    const token = storage.get('token')
     if (token) {
       config.headers.Authorization = 'Token::' + token
     }
@@ -33,7 +34,7 @@ instance.interceptors.response.use(
     const data = response.data
     if (data.code === 50001) {
       message.error(data.msg)
-      localStorage.removeItem('token')
+      storage.remove('token')
       location.href = '/login'
     } else if (data.code != 0) {
       message.error(data.msg)
