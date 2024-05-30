@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 //响应拦截器
 instance.interceptors.response.use(
   response => {
-    // hideLoading()
+    hideLoading()
     const data = response.data
     if (data.code === 50001) {
       message.error(data.msg)
@@ -42,7 +42,7 @@ instance.interceptors.response.use(
     return data.data
   },
   (error: AxiosError) => {
-    // hideLoading()
+    hideLoading()
     message.error(error.message)
     return Promise.reject(error.message)
   }
