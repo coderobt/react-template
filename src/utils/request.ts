@@ -5,7 +5,7 @@ import storage from './storage'
 
 //创建axios实例
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_BASE_API,
   timeout: 8000,
   timeoutErrorMessage: '请求超时,请稍后再试',
   //默认跨域
@@ -19,6 +19,11 @@ instance.interceptors.request.use(
     const token = storage.get('token')
     if (token) {
       config.headers.Authorization = 'Token::' + token
+    }
+    if (import.meta.env.VITE_MOCK === 'true') {
+      config.baseURL = import.meta.env.VITE_MOCK_API
+    } else {
+      config.baseURL = import.meta.env.VITE_BASE_API
     }
     return { ...config }
   },
