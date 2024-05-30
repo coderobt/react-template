@@ -4,7 +4,7 @@ import { showLoading, hideLoading } from './loading'
 
 //创建axios实例
 const instance = axios.create({
-  baseURL: '/test',
+  baseURL: '/api',
   timeout: 8000,
   timeoutErrorMessage: '请求超时,请稍后再试',
   //默认跨域
@@ -49,10 +49,10 @@ instance.interceptors.response.use(
 )
 
 export default {
-  get(url: string, params?: any) {
+  get<T>(url: string, params?: object): Promise<T> {
     return instance.get(url, { params })
   },
-  post(url: string, params: any) {
+  post<T>(url: string, params: object): Promise<T> {
     return instance.get(url, params)
   }
 }
